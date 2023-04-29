@@ -25,6 +25,9 @@ for course in f['data']:
 def check_course(msg):
   return msg in courses
 
+def check_nquiz(msg):
+  return 
+
 
 # variabile globale che decide il numero di quiz
 numberOfQuiz = 0
@@ -88,6 +91,8 @@ def setQuiz(message):
     request = requests.get(URL)
     r = request.json()
     quizzes = r['data'] #estrea i quiz in una lista
+    
+    
 
 
     options = ['5', '15', '30']
@@ -117,43 +122,39 @@ def qui(call):
     numberOfQuiz = 30
 
   bot.answer_callback_query(call.id, f"Selected: {numberOfQuiz} quiz")
-  bot.send_message(call.id, "adasd")
-  
+  startQuiz(call)
 
 
-# algoritmo quiz
-max_n = len(quizzes)
-points = 0
+def startQuiz(call):
 
-for i in range(numberOfQuiz):  
-  
-  id_question = randint(0, TOT_quiz)
-  quiz = quizzes[id_question]
+  # algoritmo quiz
+  max_n = len(quizzes)
+  points = 0
 
-  if quiz['verified']:
-    print(quiz['question'])
-    answers = quiz['answers']
+  for i in range(numberOfQuiz):  
+    
+    id_question = randint(0, TOT_quiz)
+    quiz = quizzes[id_question]
 
-    for j in range(len(answers)):
-      print(str(j + 1) + ")   " + str(answers[j]))
+    if quiz['verified']:
+      print(quiz['question'])
+      answers = quiz['answers']
 
-    risposta = int(input("numero risposta: "))
+      for j in range(len(answers)):
+        print(str(j + 1) + ")   " + str(answers[j]))
 
-    if risposta - 1 == quiz['right_answer_index']:
-      points += 3
+      risposta = int(input("numero risposta: "))
+
+      if risposta - 1 == quiz['right_answer_index']:
+        points += 3
+
+      else:
+        points -= 1
+
+      print("\n")
 
     else:
-      points -= 1
-
-    print("\n")
-
-  else:
-    i -= 1
-
-
-
-
-
+      i -= 1
 
 
 
